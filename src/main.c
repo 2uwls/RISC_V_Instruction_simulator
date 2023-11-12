@@ -4,6 +4,7 @@
 
 #include "disassembler.h"
 #include "calculate.h"
+#include "registers.h"
 
 
 int main(int argc, char* argv[])
@@ -51,6 +52,7 @@ int main(int argc, char* argv[])
         }
 
     }
+    print_registers();
     fclose(instruction_file);
     if (data_file != NULL)
     {

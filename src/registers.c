@@ -7,7 +7,7 @@
 #define NUM_REGISTERS 32
 
 // Register file
-uint32_t registers[NUM_REGISTERS];
+int32_t registers[NUM_REGISTERS];
 
 // Function to initialize registers
 void initialize_registers() {
@@ -17,15 +17,15 @@ void initialize_registers() {
 }
 
 // Function to get the value of a register
-uint32_t get_register_value(int reg_num) {
+int32_t get_register_value(int reg_num) {
     if (reg_num >= 0 && reg_num < NUM_REGISTERS) {
         return registers[reg_num];
     }
 }
 
 // Function to set the value of a register
-void set_register_value(int reg_num, uint32_t value) {
-    if (reg_num >= 0 && reg_num < NUM_REGISTERS) {
+void set_register_value(int reg_num, int32_t value) {
+    if (reg_num > 0 && reg_num < NUM_REGISTERS) {
         registers[reg_num] = value;
     } 
 }

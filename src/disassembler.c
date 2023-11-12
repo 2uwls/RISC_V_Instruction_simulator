@@ -79,43 +79,58 @@ char* disassemble_with_rType(int* arr, char* instruction, char* result)
         if (strcmp(funct7,"0000000")==0)
         {
             instruction="add";
-            // simulate_add_instruction(instruction, rd, rs1, rs2);
+            simulate_add_instruction(rd, rs1, rs2);
         } 
         else if (strcmp(funct7,"0100000")==0)
         {
             instruction="sub";
-            // simulate_sub_instruction(instruction, rd, rs1, rs2);
+            simulate_sub_instruction(rd, rs1, rs2);
         }
     }
     else if (strcmp(funct3,"100")==0)
     {
         instruction="xor";
-        // simulate_xor_instruction(instruction, rd, rs1, rs2);
+        simulate_xor_instruction(rd, rs1, rs2);
 
     }   
     else if (strcmp(funct3,"110")==0)
     {
         instruction="or";
-        // simulate_or_instruction(instruction, rd, rs1, rs2);
+        simulate_or_instruction(rd, rs1, rs2);
 
     } 
     else if (strcmp(funct3,"111")==0)
     {
         instruction="and";
-        // simulate_and_instruction(instruction, rd, rs1, rs2);
+        simulate_and_instruction(rd, rs1, rs2);
     }
       
     //shift operation
     else if (strcmp(funct3,"001")==0)
+    {
         instruction="sll";
+        simulate_sll_instruction(rd, rs1, rs2);
+    }
+        
     else if (strcmp(funct3,"010")==0)
+    {
         instruction="slt";
+        simulate_slt_instruction(rd, rs1, rs2);
+    }
+        
     else if (strcmp(funct3,"101")==0)
     {
         if (strcmp(funct7,"0000000")==0)
+        {
             instruction="srl";
+            simulate_srl_instruction(rd, rs1, rs2);
+        }
         else if (strcmp(funct7,"0100000")==0)
+        {
             instruction="sra";
+            simulate_sra_instruction(rd, rs1, rs2);
+        }
+            
     }
     // rType order: ins rd, rs1, rs2
     sprintf(result,"%s x%s, x%s, x%s",instruction,rd, rs1, rs2);
@@ -136,27 +151,31 @@ char* disassemble_with_iType(int* arr, char* instruction, char* result)
     {
         instruction="slti";
         imm=convert_binary_to_decimal_imm(slice_array(arr,20, 32));
+        simulate_slti_instruction(rd, rs1, imm);
     }
     else if (strcmp(funct3,"000")==0)
     {
         instruction="addi";
         imm=convert_binary_to_decimal_imm(slice_array(arr,20, 32));
-        simulate_addi_instruction(instruction, rd, rs1, imm);
+        simulate_addi_instruction(rd, rs1, imm);
     }
     else if (strcmp(funct3,"111")==0)
     {
         instruction="andi";
         imm=convert_binary_to_decimal_imm(slice_array(arr,20, 32));
+        simulate_andi_instruction(rd, rs1, imm);
     }
     else if (strcmp(funct3,"100")==0)
     {
         instruction="xori";
         imm=convert_binary_to_decimal_imm(slice_array(arr,20, 32));
+        simulate_xori_instruction(rd, rs1, imm);
     }
     else if (strcmp(funct3,"110")==0)
     {
         instruction="ori";
         imm=convert_binary_to_decimal_imm(slice_array(arr,20, 32));
+        simulate_ori_instruction(rd, rs1, imm);
     }
     //having shamt
     if (strcmp(funct3,"001")==0)
@@ -164,15 +183,23 @@ char* disassemble_with_iType(int* arr, char* instruction, char* result)
         imm=convert_binary_to_decimal(slice_array(arr,20, 25)); //imm==shamt
         funct7=slice_array(arr,25, 32);
         instruction="slli";
+        simulate_slli_instruction(rd, rs1, imm);
     } 
     else if (strcmp(funct3,"101")==0)
     {
         imm=convert_binary_to_decimal(slice_array(arr,20, 25)); //imm==shamt
         funct7=slice_array(arr,25, 32);
         if (strcmp(funct7,"0000000")==0)
+        {
             instruction="srli";
+            simulate_srli_instruction(rd, rs1, imm);
+        }  
         else if (strcmp(funct7,"0100000")==0)
-            instruction="srai";    
+        {
+            instruction="srai";   
+            simulate_srai_instruction(rd, rs1, imm);
+        }
+             
     }
 
     //iType order: ins rd, rs1, imm12
@@ -258,6 +285,7 @@ char* disassemble_with_luiInst(int* arr, char* instruction, char* result, char* 
 
     sprintf(imm, "%s%s",imm,"000000000000");
     imm=convert_binary_to_decimal_imm(imm);
+    simulate_lui_instruction(rd, imm);
 
     //luiIns order: ins rd, imm20
     sprintf(result,"%s x%s, %s",instruction,rd, imm);
