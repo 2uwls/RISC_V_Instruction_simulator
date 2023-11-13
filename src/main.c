@@ -51,6 +51,9 @@ int main(int argc, char* argv[])
         char* result = disassemble(binary_arr);  
         printf("inst %d: %08x %s\n", count++, value, result);
 
+        // printf("current pc : %d\n",current_pc);
+        // printf("get_pc_value %d\n",get_program_counter());
+
         // Check if BNE was executed and update accordingly
         if (current_pc != get_program_counter()) {
 

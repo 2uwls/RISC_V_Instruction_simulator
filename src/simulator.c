@@ -198,6 +198,17 @@ void simulate_sw_instruction(char *rs2, char *imm12, char *rs1)
 //sbType order: ins rs1, rs2, imm13
 void simulate_beq_instruction(char *rs1, char *rs2, char *imm13)
 {
+    int rs1_num = atoi(rs1);
+    int rs2_num = atoi(rs2);
+    int imm_num = atoi(imm13);
+
+    if (get_register_value(rs1_num) == get_register_value(rs2_num)) {
+        // Branch taken: update the program counter
+        update_program_counter(imm_num);
+    } else {
+        // Branch not taken: continue to the next instruction
+        update_program_counter(4);  // Assuming each instruction is 4 bytes
+    }
     
 
 }
@@ -241,8 +252,26 @@ void simulate_auipc_instruction(char *rd, char *imm20)
 
 void simulate_jal_instruction(char *rd, char *imm21)
 {
+    int rd_num = atoi(rd);
+    int imm_num = atoi(imm21);
+
+    set_register_value(rd_num, get_program_counter()+4);
+    update_program_counter(imm_num);
+    // int32_t target_address = get_program_counter() + imm_num;
+    // update_program_counter(target_address);
 }
 
-void simulate_jalr_instruction(char *rd, char *rs1, char *rs2)
+void simulate_jalr_instruction(char *rd, char *rs1, char* imm12)
 {
+    int rd_num = atoi(rd);
+    int rs1_num = atoi(rs1);
+    int imm_num = atoi(imm12);
+
+    // Save the address of the next instruction (pc + 4) to the destination register
+    int32_t return_address = get_program_counter() + 4;
+    set_register_value(rd_num, return_address);
+
+    // // Calculate the target address and update the program counter
+    // int32_t target_address = (get_register_value(rs1_num) + imm_num) & ~1;
+    // update_program_counter(target_address);
 }
