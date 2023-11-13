@@ -2,12 +2,12 @@
 #include <stdint.h>
 
 
-
 // Define the number of registers
 #define NUM_REGISTERS 32
 
 // Register file
 int32_t registers[NUM_REGISTERS];
+int program_counter = 0;
 
 // Function to initialize registers
 void initialize_registers() {
@@ -35,4 +35,13 @@ void print_registers() {
     for (int i = 0; i < NUM_REGISTERS; i++) {
         printf("x%d: 0x%08x\n", i, registers[i]);
     }
+}
+
+void update_program_counter(int offset) {
+    program_counter += offset;
+}
+
+// Function to get the current program counter value
+int get_program_counter() {
+    return program_counter;
 }

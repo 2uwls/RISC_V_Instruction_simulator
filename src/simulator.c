@@ -176,10 +176,24 @@ void simulate_sw_instruction(char *rs2, char *imm12, char *rs1)
 //sbType order: ins rs1, rs2, imm13
 void simulate_beq_instruction(char *rs1, char *rs2, char *imm13)
 {
+    
+
 }
 
 void simulate_bne_instruction(char *rs1, char *rs2, char *imm13)
 {
+    int rs1_num = atoi(rs1);
+    int rs2_num = atoi(rs2);
+    int imm_num = atoi(imm13);
+
+    if (get_register_value(rs1_num) != get_register_value(rs2_num)) {
+        // Branch taken: update the program counter
+        update_program_counter(imm_num);
+    } else {
+        // Branch not taken: continue to the next instruction
+        update_program_counter(4);  // Assuming each instruction is 4 bytes
+    }
+
 }
 
 void simulate_blt_instruction(char *rs1, char *rs2, char *imm13)
@@ -199,3 +213,14 @@ void simulate_lui_instruction(char *rd, char *imm20)
 
 }
 
+void simulate_auipc_instruction(char *rd, char *imm20)
+{
+}
+
+void simulate_jal_instruction(char *rd, char *imm21)
+{
+}
+
+void simulate_jalr_instruction(char *rd, char *rs1, char *rs2)
+{
+}

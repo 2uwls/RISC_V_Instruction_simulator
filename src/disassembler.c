@@ -266,7 +266,10 @@ char* disassemble_with_sbType(int* arr, char* instruction, char* result,char* im
     if (strcmp(funct3,"000")==0)
         instruction="beq";
     else if (strcmp(funct3,"001")==0)
+    {
         instruction="bne";
+        simulate_bne_instruction(rs1, rs2, imm);
+    }
     else if (strcmp(funct3,"100")==0)
         instruction="blt";
     else if (strcmp(funct3,"101")==0)

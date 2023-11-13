@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
         }
     }
     int num_instructions = atoi(argv[argc - 1]);
-
+    int current_pc = 0;
     while (fread(buffer, sizeof(buffer), 1, instruction_file) == 1 && count < num_instructions)
     {
         unsigned int value = buffer[3] << 24 | buffer[2] << 16 | buffer[1] << 8 | buffer[0];
@@ -46,6 +46,18 @@ int main(int argc, char* argv[])
         char* result = disassemble(binary_arr);  
         printf("inst %d: %08x %s\n", count++, value, result);
 
+        // Check if BNE was executed and update accordingly
+        if (current_pc != get_program_counter()) {
+
+            current_pc = get_program_counter();
+            // Move back to the branch instruction and read the instruction
+            fseek(instruction_file, current_pc-4, SEEK_SET);
+            fread(buffer, sizeof(buffer), 1, instruction_file);
+        } else {
+            current_pc += 4;
+            update_program_counter(4);
+        }
+    
         if (data_file != NULL)
         {
 

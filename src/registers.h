@@ -1,6 +1,8 @@
 #include <stdint.h>
 
 void initialize_registers();
-uint32_t get_register_value(int reg_num);
-void set_register_value(int reg_num, uint32_t value);
+int get_register_value(int reg_num);
+void set_register_value(int reg_num, int32_t value);
 void print_registers();
+void update_program_counter(int offset);
+int get_program_counter();
