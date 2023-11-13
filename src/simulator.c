@@ -5,6 +5,7 @@
 #include "calculate.h"
 #include "registers.h"
 #include "simulator.h"
+#include "data_memory.h"
 
 
 // rType order: ins rd, rs1, rs2
@@ -152,7 +153,7 @@ void simulate_srli_instruction(char *rd, char *rs1, char *imm5)
     int rd_num = atoi(rd);
     int rs1_num = atoi(rs1);
     int imm_num = atoi(imm5);
-    int32_t result = get_register_value(rs1_num) >> imm_num;
+    uint32_t result = (uint32_t) get_register_value(rs1_num) >> imm_num;
     set_register_value(rd_num, result);
 }
 
@@ -168,10 +169,31 @@ void simulate_srai_instruction(char *rd, char *rs1, char *imm5)
 //iTyleLoad order: ins rd, imm12(rs1)
 void simulate_lw_instruction(char *rd, char *imm, char *rs1)
 {
+    int rd_num = atoi(rd);
+    int offset = atoi(imm);
+    int rs1_num = atoi(rs1);
+    int32_t address = get_register_value(rs1_num) + offset;
+
+    // Load a 4-byte word from data memory at the calculated address
+    int32_t data = load_word_from_memory(address);
+
+    // Set the result to the destination register
+    set_register_value(rd_num, data);
+
 }
 //sType order: ins rs2, imm12(rs1)
 void simulate_sw_instruction(char *rs2, char *imm12, char *rs1)
 {
+    int rs2_num = atoi(rs2);
+    int offset = atoi(imm12);
+    int rs1_num = atoi(rs1);
+    int32_t address = get_register_value(rs1_num) + offset;
+
+    // Get the value from register rs2
+    int32_t data = get_register_value(rs2_num);
+
+    // Store a 4-byte word into data memory at the calculated address
+    store_word_to_memory(address, data);
 }
 //sbType order: ins rs1, rs2, imm13
 void simulate_beq_instruction(char *rs1, char *rs2, char *imm13)

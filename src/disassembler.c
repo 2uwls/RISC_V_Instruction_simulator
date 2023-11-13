@@ -218,7 +218,11 @@ char* disassemble_with_iTypeLoad(int* arr, char* instruction, char* result)
     char* imm=convert_binary_to_decimal_imm(slice_array(arr,20, 32));
 
     if (strcmp(funct3,"010")==0)
+    {
         instruction="lw";
+        simulate_lw_instruction(rd, imm, rs1);
+    }
+       
 
     //iTyleLoad order: ins rd, imm12(rs1)
     sprintf(result,"%s x%s, %s(x%s)",instruction,rd, imm, rs1);
@@ -240,7 +244,11 @@ char* disassemble_with_sType(int* arr, char* instruction, char* result, char* im
     imm=convert_binary_to_decimal_imm(imm);
 
     if (strcmp(funct3,"010")==0)
+    {
         instruction="sw";
+        simulate_sw_instruction(rs2, imm, rs1);
+    }
+      
 
     //sType order: ins rs2, imm12(rs1)
     sprintf(result,"%s x%s, %s(x%s)",instruction, rs2, imm, rs1);

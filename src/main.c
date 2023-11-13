@@ -5,6 +5,7 @@
 #include "disassembler.h"
 #include "calculate.h"
 #include "registers.h"
+#include "data_memory.h"
 
 
 int main(int argc, char* argv[])
@@ -21,6 +22,8 @@ int main(int argc, char* argv[])
     unsigned char buffer[4];
     int count = 0;
     int binary_arr[32];
+    initialize_registers();
+    initialize_data_memory();
 
     if ((instruction_file = fopen(argv[1],"rb")) == NULL)
     {
@@ -36,6 +39,8 @@ int main(int argc, char* argv[])
             perror("fopen");
             exit(1);
         }
+        load_data_memory_from_file(argv[2]);
+        fclose(data_file);
     }
     int num_instructions = atoi(argv[argc - 1]);
     int current_pc = 0;
