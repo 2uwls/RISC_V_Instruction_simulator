@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
         unsigned int value = buffer[3] << 24 | buffer[2] << 16 | buffer[1] << 8 | buffer[0];
         fill_binary_arr(value, binary_arr);
         char* result = disassemble(binary_arr);  
-        printf("inst %d: %08x %s\n", count++, value, result);
+        // printf("inst %d: %08x %s\n", count++, value, result);
 
         // printf("current pc : %d\n",current_pc);
         // printf("get_pc_value %d\n",get_program_counter());

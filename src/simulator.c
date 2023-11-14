@@ -175,10 +175,18 @@ void simulate_lw_instruction(char *rd, char *imm, char *rs1)
     int32_t address = get_register_value(rs1_num) + offset;
 
     // Load a 4-byte word from data memory at the calculated address
-    int32_t data = load_word_from_memory(address);
+    int32_t data = load_data_from_memory(address);
 
     // Set the result to the destination register
     set_register_value(rd_num, data);
+    if (get_register_value(rs1_num)>=0x20000000)
+    {
+        int word_num = 0;
+        scanf("%d",&word_num);
+        set_register_value(rd_num, word_num);
+    }
+      
+
 
 }
 //sType order: ins rs2, imm12(rs1)
@@ -193,7 +201,9 @@ void simulate_sw_instruction(char *rs2, char *imm12, char *rs1)
     int32_t data = get_register_value(rs2_num);
 
     // Store a 4-byte word into data memory at the calculated address
-    store_word_to_memory(address, data);
+    store_data_to_memory(address, data);
+    if (get_register_value(rs1_num)>=0x20000000)
+        printf("%c",get_register_value(rs2_num));
 }
 //sbType order: ins rs1, rs2, imm13
 void simulate_beq_instruction(char *rs1, char *rs2, char *imm13)

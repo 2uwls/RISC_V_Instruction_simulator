@@ -17,7 +17,7 @@ void initialize_data_memory() {
     }
 }
 
-int32_t load_word_from_memory(int32_t address) {
+int32_t load_data_from_memory(int32_t address) {
     int32_t result = 0;
 
     // Check if the address is within the data memory range
@@ -30,7 +30,7 @@ int32_t load_word_from_memory(int32_t address) {
 
     return result;
 }
-void store_word_to_memory(int32_t address, int32_t data) {
+void store_data_to_memory(int32_t address, int32_t data) {
     // Check if the address is within the data memory range
     if (address >= 0x10000000 && address <= 0x1000FFFF) {
         // Store 4 bytes into data memory
