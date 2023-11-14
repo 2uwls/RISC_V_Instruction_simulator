@@ -251,7 +251,11 @@ void simulate_bge_instruction(char *rs1, char *rs2, char *imm13)
     int imm_num = atoi(imm13);
 
     if (get_register_value(rs1_num) >= get_register_value(rs2_num)) {
-        // Branch taken: update the program counter
+        printf("rs1%d\n",rs1_num);
+        printf("rs2%d\n",rs2_num);
+
+        // // Branch taken: update the program counter
+        // set_program_counter(imm_num);
         update_program_counter(imm_num);
     } else {
         // Branch not taken: continue to the next instruction

@@ -283,9 +283,17 @@ char* disassemble_with_sbType(int* arr, char* instruction, char* result,char* im
         simulate_bne_instruction(rs1, rs2, imm);
     }
     else if (strcmp(funct3,"100")==0)
+    {
         instruction="blt";
+        simulate_blt_instruction(rs1, rs2, imm);
+    }
+        
     else if (strcmp(funct3,"101")==0)
+    {
         instruction="bge";
+        simulate_bge_instruction(rs1, rs2, imm);
+    }
+     
     //sbType order: ins rs1, rs2, imm13
     sprintf(result,"%s x%s, x%s, %s",instruction,rs1, rs2, imm);
     
