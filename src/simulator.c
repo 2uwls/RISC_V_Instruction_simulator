@@ -231,10 +231,32 @@ void simulate_bne_instruction(char *rs1, char *rs2, char *imm13)
 
 void simulate_blt_instruction(char *rs1, char *rs2, char *imm13)
 {
+    int rs1_num = atoi(rs1);
+    int rs2_num = atoi(rs2);
+    int imm_num = atoi(imm13);
+
+    if (get_register_value(rs1_num) < get_register_value(rs2_num)) {
+        // Branch taken: update the program counter
+        update_program_counter(imm_num);
+    } else {
+        // Branch not taken: continue to the next instruction
+        update_program_counter(4);  // Assuming each instruction is 4 bytes
+    }
 }
 
 void simulate_bge_instruction(char *rs1, char *rs2, char *imm13)
 {
+    int rs1_num = atoi(rs1);
+    int rs2_num = atoi(rs2);
+    int imm_num = atoi(imm13);
+
+    if (get_register_value(rs1_num) >= get_register_value(rs2_num)) {
+        // Branch taken: update the program counter
+        update_program_counter(imm_num);
+    } else {
+        // Branch not taken: continue to the next instruction
+        update_program_counter(4);  // Assuming each instruction is 4 bytes
+    }
 }
 //luiIns order: ins rd, imm20
 void simulate_lui_instruction(char *rd, char *imm20)
@@ -248,6 +270,14 @@ void simulate_lui_instruction(char *rd, char *imm20)
 
 void simulate_auipc_instruction(char *rd, char *imm20)
 {
+    int rd_num = atoi(rd);
+    int imm_num = atoi(imm20);
+
+    // Add the sign-extended immediate to the current PC value
+    int32_t result = get_program_counter() + imm_num;
+
+    // Set the result to the destination register
+    set_register_value(rd_num, result);
 }
 
 void simulate_jal_instruction(char *rd, char *imm21)
@@ -261,17 +291,14 @@ void simulate_jal_instruction(char *rd, char *imm21)
     // update_program_counter(target_address);
 }
 
-void simulate_jalr_instruction(char *rd, char *rs1, char* imm12)
+void simulate_jalr_instruction(char *rd, char *imm12, char* rs1)
 {
     int rd_num = atoi(rd);
-    int rs1_num = atoi(rs1);
     int imm_num = atoi(imm12);
-
-    // Save the address of the next instruction (pc + 4) to the destination register
-    int32_t return_address = get_program_counter() + 4;
-    set_register_value(rd_num, return_address);
-
-    // // Calculate the target address and update the program counter
+    int rs1_num = atoi(rs1);
+    int32_t target_address = (get_register_value(rs1_num)) + imm_num & ~1;
     // int32_t target_address = (get_register_value(rs1_num) + imm_num) & ~1;
+    set_register_value(rd_num, get_program_counter() + 4);
+    set_program_counter(target_address);
     // update_program_counter(target_address);
 }

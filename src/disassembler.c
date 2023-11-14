@@ -316,6 +316,7 @@ char* disassemble_with_auipcInst(int* arr, char* instruction, char* result, char
 
     sprintf(imm, "%s%s",imm, "000000000000");
     imm=convert_binary_to_decimal_imm(imm);
+    simulate_auipc_instruction(rd, imm);
 
     //auipcIns order: ins rd, imm20
     sprintf(result,"%s x%s, %s",instruction,rd, imm);
@@ -350,7 +351,7 @@ char* disassemble_with_jalrInst(int* arr, char* instruction, char* result)
     char* funct3=slice_array(arr,12, 15);
     char* rs1=convert_binary_to_decimal(slice_array(arr,15, 20));
     char* imm=convert_binary_to_decimal_imm(slice_array(arr,20, 32));
-    simulate_jalr_instruction(rd, rs1, imm);
+    simulate_jalr_instruction(rd, imm, rs1);
 
     //jalrIns order: ins, rd, rs1, imm12
     sprintf(result, "%s x%s, %s(x%s)",instruction,rd,imm,rs1);

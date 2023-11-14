@@ -43,4 +43,4 @@ void simulate_auipc_instruction(char* rd, char* imm20);
 void simulate_jal_instruction(char* rd, char* imm21);
 
 //jalrIns order: ins, rd, rs1, imm12
-void simulate_jalr_instruction(char* rd, char* rs1, char* imm12);
+void simulate_jalr_instruction(char* rd, char* imm12, char* rs1);

@@ -37,8 +37,14 @@ void print_registers() {
     }
 }
 
-void update_program_counter(int offset) {
+void update_program_counter(int offset) 
+{
     program_counter += offset;
+}
+
+void set_program_counter(int pc)
+{
+    program_counter = pc;
 }
 
 // Function to get the current program counter value
