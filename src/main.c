@@ -46,9 +46,14 @@ int main(int argc, char* argv[])
     int current_pc = 0;
     while (fread(buffer, sizeof(buffer), 1, instruction_file) == 1 && count < num_instructions)
     {
+        
+
+
         unsigned int value = buffer[3] << 24 | buffer[2] << 16 | buffer[1] << 8 | buffer[0];
         fill_binary_arr(value, binary_arr);
-        char* result = disassemble(binary_arr);  
+       
+        char* result = disassemble(binary_arr); 
+       
         // printf("inst %d: %08x %s\n", count++, value, result);
 
         // printf("current pc : %d\n",current_pc);
@@ -61,14 +66,15 @@ int main(int argc, char* argv[])
             // Move back to the branch instruction and read the instruction
             fseek(instruction_file, current_pc-4, SEEK_SET);
             fread(buffer, sizeof(buffer), 1, instruction_file);
+    
         } else {
             current_pc += 4;
             update_program_counter(4);
         }
-    
-        if (data_file != NULL)
-        {
 
+        if (feof(instruction_file)!=0) {
+        printf("End of file reached.\n");
+        break;
         }
 
     }

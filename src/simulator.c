@@ -53,7 +53,6 @@ void simulate_and_instruction(char *rd, char *rs1, char *rs2)
     int32_t result = get_register_value(rs1_num) & get_register_value(rs2_num);
     set_register_value(rd_num, result);
 }
-//shift operation
 void simulate_sll_instruction(char *rd, char *rs1, char *rs2)
 {
     int rd_num = atoi(rd);
@@ -77,9 +76,8 @@ void simulate_srl_instruction(char *rd, char *rs1, char *rs2)
     int rd_num = atoi(rd);
     int rs1_num = atoi(rs1);
     int rs2_num = atoi(rs2);
-    int32_t result = get_register_value(rs1_num) >> get_register_value(rs2_num);
+    int32_t result =  (uint32_t) get_register_value(rs1_num) >> get_register_value(rs2_num);
     set_register_value(rd_num, result);
-
 }
 
 void simulate_sra_instruction(char *rd, char *rs1, char *rs2)
@@ -89,7 +87,6 @@ void simulate_sra_instruction(char *rd, char *rs1, char *rs2)
     int rs2_num = atoi(rs2);
     int32_t result = (signed) get_register_value(rs1_num) >> get_register_value(rs2_num);
     set_register_value(rd_num, result);
-
 }
 // iType order: ins rd, rs1, imm12
 void simulate_slti_instruction(char *rd, char *rs1, char *imm12)
@@ -98,9 +95,7 @@ void simulate_slti_instruction(char *rd, char *rs1, char *imm12)
     int rs1_num = atoi(rs1);
     int imm_num = atoi(imm12);
     int32_t result = (int32_t) get_register_value(rs1_num) < imm_num ? 1 : 0;
-    printf("%d",result);
     set_register_value(rd_num, result);
-
 }
 void simulate_addi_instruction(char *rd, char *rs1, char *imm12)
 {
@@ -117,7 +112,6 @@ void simulate_andi_instruction(char *rd, char *rs1, char *imm12)
     int imm_num = atoi(imm12);
     int32_t result = get_register_value(rs1_num) & imm_num;
     set_register_value(rd_num, result);
-
 }
 void simulate_xori_instruction(char *rd, char *rs1, char *imm12)
 {
@@ -134,8 +128,6 @@ void simulate_ori_instruction(char *rd, char *rs1, char *imm12)
     int imm_num = atoi(imm12);
     int32_t result = (int32_t) get_register_value(rs1_num) | imm_num;
     set_register_value(rd_num, result);
-
-
 }
 //iType order: ins rd, rs1, imm5(shamt)
 void simulate_slli_instruction(char *rd, char *rs1, char *imm5)
@@ -145,7 +137,6 @@ void simulate_slli_instruction(char *rd, char *rs1, char *imm5)
     int imm_num = atoi(imm5);
     int32_t result = get_register_value(rs1_num) << imm_num;
     set_register_value(rd_num, result);
-
 }
 
 void simulate_srli_instruction(char *rd, char *rs1, char *imm5)
@@ -164,7 +155,6 @@ void simulate_srai_instruction(char *rd, char *rs1, char *imm5)
     int imm_num = atoi(imm5);
     int32_t result = (signed) get_register_value(rs1_num) >> imm_num;
     set_register_value(rd_num, result);
-
 }
 //iTyleLoad order: ins rd, imm12(rs1)
 void simulate_lw_instruction(char *rd, char *imm, char *rs1)
@@ -173,21 +163,15 @@ void simulate_lw_instruction(char *rd, char *imm, char *rs1)
     int offset = atoi(imm);
     int rs1_num = atoi(rs1);
     int32_t address = get_register_value(rs1_num) + offset;
-
-    // Load a 4-byte word from data memory at the calculated address
     int32_t data = load_data_from_memory(address);
-
-    // Set the result to the destination register
     set_register_value(rd_num, data);
+
     if (get_register_value(rs1_num)>=0x20000000)
     {
         int word_num = 0;
         scanf("%d",&word_num);
         set_register_value(rd_num, word_num);
     }
-      
-
-
 }
 //sType order: ins rs2, imm12(rs1)
 void simulate_sw_instruction(char *rs2, char *imm12, char *rs1)
@@ -196,12 +180,9 @@ void simulate_sw_instruction(char *rs2, char *imm12, char *rs1)
     int offset = atoi(imm12);
     int rs1_num = atoi(rs1);
     int32_t address = get_register_value(rs1_num) + offset;
-
-    // Get the value from register rs2
     int32_t data = get_register_value(rs2_num);
-
-    // Store a 4-byte word into data memory at the calculated address
     store_data_to_memory(address, data);
+
     if (get_register_value(rs1_num)>=0x20000000)
         printf("%c",get_register_value(rs2_num));
 }
@@ -212,12 +193,12 @@ void simulate_beq_instruction(char *rs1, char *rs2, char *imm13)
     int rs2_num = atoi(rs2);
     int imm_num = atoi(imm13);
 
-    if (get_register_value(rs1_num) == get_register_value(rs2_num)) {
-        // Branch taken: update the program counter
+    if (get_register_value(rs1_num) == get_register_value(rs2_num)) 
+    {
         update_program_counter(imm_num);
-    } else {
-        // Branch not taken: continue to the next instruction
-        update_program_counter(4);  // Assuming each instruction is 4 bytes
+    } else 
+    {
+        update_program_counter(4);
     }
     
 
@@ -229,14 +210,13 @@ void simulate_bne_instruction(char *rs1, char *rs2, char *imm13)
     int rs2_num = atoi(rs2);
     int imm_num = atoi(imm13);
 
-    if (get_register_value(rs1_num) != get_register_value(rs2_num)) {
-        // Branch taken: update the program counter
+    if (get_register_value(rs1_num) != get_register_value(rs2_num)) 
+    {
         update_program_counter(imm_num);
-    } else {
-        // Branch not taken: continue to the next instruction
-        update_program_counter(4);  // Assuming each instruction is 4 bytes
+    } else 
+    {
+        update_program_counter(4);
     }
-
 }
 
 void simulate_blt_instruction(char *rs1, char *rs2, char *imm13)
@@ -245,12 +225,12 @@ void simulate_blt_instruction(char *rs1, char *rs2, char *imm13)
     int rs2_num = atoi(rs2);
     int imm_num = atoi(imm13);
 
-    if (get_register_value(rs1_num) < get_register_value(rs2_num)) {
-        // Branch taken: update the program counter
+    if (get_register_value(rs1_num) < get_register_value(rs2_num)) 
+    {
         update_program_counter(imm_num);
-    } else {
-        // Branch not taken: continue to the next instruction
-        update_program_counter(4);  // Assuming each instruction is 4 bytes
+    } else 
+    {
+        update_program_counter(4);  
     }
 }
 
@@ -260,16 +240,15 @@ void simulate_bge_instruction(char *rs1, char *rs2, char *imm13)
     int rs2_num = atoi(rs2);
     int imm_num = atoi(imm13);
 
-    if (get_register_value(rs1_num) >= get_register_value(rs2_num)) {
+    if (get_register_value(rs1_num) >= get_register_value(rs2_num)) 
+    {
         printf("rs1%d\n",rs1_num);
         printf("rs2%d\n",rs2_num);
 
-        // // Branch taken: update the program counter
-        // set_program_counter(imm_num);
         update_program_counter(imm_num);
-    } else {
-        // Branch not taken: continue to the next instruction
-        update_program_counter(4);  // Assuming each instruction is 4 bytes
+    } else 
+    {
+        update_program_counter(4); 
     }
 }
 //luiIns order: ins rd, imm20
@@ -278,19 +257,13 @@ void simulate_lui_instruction(char *rd, char *imm20)
     int rd_num = atoi(rd);
     int imm_num = atoi(imm20);
     set_register_value(rd_num, imm_num);
- 
-
 }
 
 void simulate_auipc_instruction(char *rd, char *imm20)
 {
     int rd_num = atoi(rd);
     int imm_num = atoi(imm20);
-
-    // Add the sign-extended immediate to the current PC value
     int32_t result = get_program_counter() + imm_num;
-
-    // Set the result to the destination register
     set_register_value(rd_num, result);
 }
 
@@ -298,11 +271,8 @@ void simulate_jal_instruction(char *rd, char *imm21)
 {
     int rd_num = atoi(rd);
     int imm_num = atoi(imm21);
-
     set_register_value(rd_num, get_program_counter()+4);
     update_program_counter(imm_num);
-    // int32_t target_address = get_program_counter() + imm_num;
-    // update_program_counter(target_address);
 }
 
 void simulate_jalr_instruction(char *rd, char *imm12, char* rs1)
@@ -311,8 +281,6 @@ void simulate_jalr_instruction(char *rd, char *imm12, char* rs1)
     int imm_num = atoi(imm12);
     int rs1_num = atoi(rs1);
     int32_t target_address = (get_register_value(rs1_num)) + imm_num & ~1;
-    // int32_t target_address = (get_register_value(rs1_num) + imm_num) & ~1;
     set_register_value(rd_num, get_program_counter() + 4);
     set_program_counter(target_address);
-    // update_program_counter(target_address);
 }

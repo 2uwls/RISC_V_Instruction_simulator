@@ -91,20 +91,17 @@ char* disassemble_with_rType(int* arr, char* instruction, char* result)
     {
         instruction="xor";
         simulate_xor_instruction(rd, rs1, rs2);
-
     }   
     else if (strcmp(funct3,"110")==0)
     {
         instruction="or";
         simulate_or_instruction(rd, rs1, rs2);
-
     } 
     else if (strcmp(funct3,"111")==0)
     {
         instruction="and";
         simulate_and_instruction(rd, rs1, rs2);
-    }
-      
+    } 
     //shift operation
     else if (strcmp(funct3,"001")==0)
     {
@@ -201,7 +198,6 @@ char* disassemble_with_iType(int* arr, char* instruction, char* result)
         }
              
     }
-
     //iType order: ins rd, rs1, imm12
     //iType order: ins rd, rs1, imm5(shamt)
     sprintf(result,"%s x%s, x%s, %s",instruction,rd, rs1, imm);
@@ -222,7 +218,6 @@ char* disassemble_with_iTypeLoad(int* arr, char* instruction, char* result)
         instruction="lw";
         simulate_lw_instruction(rd, imm, rs1);
     }
-       
 
     //iTyleLoad order: ins rd, imm12(rs1)
     sprintf(result,"%s x%s, %s(x%s)",instruction,rd, imm, rs1);
@@ -248,7 +243,6 @@ char* disassemble_with_sType(int* arr, char* instruction, char* result, char* im
         instruction="sw";
         simulate_sw_instruction(rs2, imm, rs1);
     }
-      
 
     //sType order: ins rs2, imm12(rs1)
     sprintf(result,"%s x%s, %s(x%s)",instruction, rs2, imm, rs1);
