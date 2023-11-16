@@ -170,7 +170,10 @@ void simulate_lw_instruction(char *rd, char *imm, char *rs1)
     {
         int word_num = 0;
         scanf("%d",&word_num);
+        int32_t word_address = get_register_value(rs1_num) + offset;
+        int32_t word_data = load_word_data_from_memory(word_address);
         set_register_value(rd_num, word_num);
+        // set_register_value(rd_num, word_data);
     }
 }
 //sType order: ins rs2, imm12(rs1)
@@ -184,7 +187,13 @@ void simulate_sw_instruction(char *rs2, char *imm12, char *rs1)
     store_data_to_memory(address, data);
 
     if (get_register_value(rs1_num)>=0x20000000)
-        printf("%c",get_register_value(rs2_num));
+    {
+        int32_t word_address = get_register_value(rs1_num) + offset;
+        int32_t word_data = get_register_value(rs2_num);
+        store_word_data_to_memory(word_address, word_data);
+        printf("%c",word_data);
+    }
+        
 }
 //sbType order: ins rs1, rs2, imm13
 void simulate_beq_instruction(char *rs1, char *rs2, char *imm13)
@@ -242,9 +251,6 @@ void simulate_bge_instruction(char *rs1, char *rs2, char *imm13)
 
     if (get_register_value(rs1_num) >= get_register_value(rs2_num)) 
     {
-        printf("rs1%d\n",rs1_num);
-        printf("rs2%d\n",rs2_num);
-
         update_program_counter(imm_num);
     } else 
     {
