@@ -1,3 +1,5 @@
 build
 show_test
 .vscode
+.DS_Store
+riscv-sim

@@ -15,7 +15,11 @@ void initialize_registers()
 int32_t get_register_value(int reg_num) 
 {
     if (reg_num >= 0 && reg_num < NUM_REGISTERS) 
-        return registers[reg_num];
+    {
+        int32_t register_num = registers[reg_num];
+        return register_num;
+    }
+    return 0;
 }
 
 void set_register_value(int reg_num, int32_t value) 
