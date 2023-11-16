@@ -37,7 +37,6 @@ int main(int argc, char* argv[])
             exit(1);
         }
         load_data_memory_from_file(argv[2]);
-        fclose(data_file);
     }
     int num_instructions = atoi(argv[argc - 1]);
     int current_pc = 0;
