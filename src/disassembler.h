@@ -1,7 +1,6 @@
 //disassemble
 char* disassemble(int*arr);
 
-
 //type
 char* disassemble_with_rType(int* arr, char* instruction, char* result);
 char* disassemble_with_iType(int* arr, char* instruction, char* result);

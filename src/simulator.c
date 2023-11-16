@@ -210,7 +210,6 @@ void simulate_beq_instruction(char *rs1, char *rs2, char *imm13)
         update_program_counter(4);
     }
     
-
 }
 
 void simulate_bne_instruction(char *rs1, char *rs2, char *imm13)

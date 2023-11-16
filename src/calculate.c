@@ -40,7 +40,6 @@ char* convert_binary_to_decimal_imm(char* binary_string)
 
     int complement_count=0;
 
-
    if(binary_string[0]=='1')
    {
         complement_count=1;
@@ -84,7 +83,6 @@ char* slice_array(int* arr, int start, int end)
     int* sliced_array=(int *)malloc(sizeof(int)*arr_size);
     int num=0;
     
-
     for (int i = 0; i < arr_size; i++) {
         sliced_array[i] = arr[end - 1 - i];
     }

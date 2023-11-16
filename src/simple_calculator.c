@@ -6,16 +6,12 @@ void simple_calculator(unsigned char* buffer, int* count, int* current_pc, int n
     int choice = 0;
     int operand1, operand2, result = 0;
 
-    // Read a line of input
     if (fgets((char*)buffer, sizeof(buffer), stdin) == NULL) 
     {
-        // Handle end of file or error
         exit(1);
     }
 
-    // Parse the integer from the input line
     if (sscanf((char*)buffer, "%d", &choice) != 1) {
-        // Invalid input, user pressed Enter without entering a number
         return;
     }
 

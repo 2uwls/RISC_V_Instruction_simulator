@@ -14,7 +14,6 @@ void initialize_data_memory() {
     }
 }
 
-
 int32_t load_data_from_memory(int32_t address) {
     int32_t result = 0;
     if (address >= 0x10000000 && address <= 0x1000FFFF) {
@@ -63,9 +62,7 @@ uint32_t load_word_data_from_memory(int32_t address) {
 }
 
 void store_word_data_to_memory(int32_t address, uint32_t data) {
-    // Check if the address is within the word data memory range
     if (address >= 0x20000000 && address <= 0x2000FFFF) {
-        // Store 4 bytes into word data memory
         for (int i = 0; i < 4; i++) {
             word_data_memory[address - 0x20000000 + i] = (data >> (i * 8)) & 0xFF;
         }
